@@ -7,9 +7,9 @@ import (
 
 // SingleLinkedList holds the node, where each node points to nex node
 type SingleLinkedList struct {
-	first *node
-	last  *node
-	size  int
+	head *node
+	tail *node
+	size int
 }
 
 type node struct {
@@ -20,9 +20,9 @@ type node struct {
 // New create new single linked list and add the values passed, if any
 func New(values ...interface{}) *SingleLinkedList {
 	sll := &SingleLinkedList{
-		first: nil,
-		last:  nil,
-		size:  0,
+		head: nil,
+		tail: nil,
+		size: 0,
 	}
 	if len(values) > 0 {
 		sll.Add(values...)
@@ -38,11 +38,11 @@ func (sll *SingleLinkedList) Add(values ...interface{}) {
 			next:  nil,
 		}
 		if sll.size == 0 {
-			sll.first = newNode
-			sll.last = newNode
+			sll.head = newNode
+			sll.tail = newNode
 		} else {
-			sll.last.next = newNode
-			sll.last = newNode
+			sll.tail.next = newNode
+			sll.tail = newNode
 		}
 		sll.size++
 	}
@@ -53,12 +53,12 @@ func (sll *SingleLinkedList) Prepend(values ...interface{}) {
 	for _, v := range values {
 		newNode := &node{
 			value: v,
-			next:  sll.first,
+			next:  sll.head,
 		}
-		sll.first = newNode
+		sll.head = newNode
 
 		if sll.size == 0 {
-			sll.last = newNode
+			sll.tail = newNode
 		}
 
 		sll.size++
@@ -73,7 +73,7 @@ func (sll *SingleLinkedList) Get(index int) (interface{}, bool) {
 		return nil, false
 	}
 
-	current := sll.first
+	current := sll.head
 	for n := 0; n < index; n++ {
 		current = current.next
 	}
@@ -93,17 +93,17 @@ func (sll *SingleLinkedList) Remove(index int) {
 
 	var previous *node
 
-	current := sll.first
+	current := sll.head
 
 	for n := 0; n < index; n++ {
 		previous = current
 		current = current.next
 	}
 
-	if current == sll.first {
-		sll.first = current.next
-	} else if current == sll.last {
-		sll.last = previous
+	if current == sll.head {
+		sll.head = current.next
+	} else if current == sll.tail {
+		sll.tail = previous
 	} else {
 		previous.next = current.next
 	}
@@ -117,7 +117,7 @@ func (sll *SingleLinkedList) Contains(values ...interface{}) bool {
 
 	for _, v := range values {
 		found := false
-		for current := sll.first; current != nil; current = current.next {
+		for current := sll.head; current != nil; current = current.next {
 			if v == current.value {
 				found = true
 				break
@@ -143,14 +143,14 @@ func (sll *SingleLinkedList) Insert(index int, values ...interface{}) {
 	sll.size += len(values)
 
 	var previous *node
-	current := sll.first
+	current := sll.head
 	for n := 0; n < index; n++ {
 		previous = current
 		current = current.next
 	}
 
-	if current == sll.first {
-		oldFirstNode := sll.first
+	if current == sll.head {
+		oldFirstNode := sll.head
 		for i, v := range values {
 			newNode := &node{
 				value: v,
@@ -158,7 +158,7 @@ func (sll *SingleLinkedList) Insert(index int, values ...interface{}) {
 			}
 
 			if i == 0 {
-				sll.first = newNode
+				sll.head = newNode
 			} else {
 				previous.next = newNode
 			}
@@ -179,7 +179,7 @@ func (sll *SingleLinkedList) Insert(index int, values ...interface{}) {
 }
 
 // Set value at given index
-// If index is equal to last index it add that value to single linked list
+// If index is equal to tail index it add that value to single linked list
 func (sll *SingleLinkedList) Set(index int, value interface{}) {
 	if !sll.validateIndex(index) {
 		if index == sll.size {
@@ -188,7 +188,7 @@ func (sll *SingleLinkedList) Set(index int, value interface{}) {
 		return
 	}
 
-	current := sll.first
+	current := sll.head
 	for n := 0; n < index; n++ {
 		current = current.next
 	}
@@ -207,8 +207,8 @@ func (sll *SingleLinkedList) Size() int {
 
 // Clear remove all element from the single linked list
 func (sll *SingleLinkedList) Clear() {
-	sll.first = nil
-	sll.last = nil
+	sll.head = nil
+	sll.tail = nil
 	sll.size = 0
 }
 
@@ -216,7 +216,7 @@ func (sll *SingleLinkedList) Clear() {
 func (sll *SingleLinkedList) String() string {
 	values := []string{}
 
-	for node := sll.first; node != nil; node = node.next {
+	for node := sll.head; node != nil; node = node.next {
 		values = append(values, fmt.Sprintf("%v", node.value))
 	}
 	result := strings.Join(values, "->")
