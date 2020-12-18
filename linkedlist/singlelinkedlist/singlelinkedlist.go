@@ -25,7 +25,10 @@ func New(values ...interface{}) *SingleLinkedList {
 		size: 0,
 	}
 	if len(values) > 0 {
-		sll.Add(values...)
+		for _, v := range values {
+			sll.Add(v)
+		}
+
 	}
 	return sll
 }
@@ -135,7 +138,9 @@ func (sll *SingleLinkedList) Contains(values ...interface{}) bool {
 func (sll *SingleLinkedList) Insert(index int, values ...interface{}) {
 	if !sll.validateIndex(index) {
 		if index == sll.size {
-			sll.Add(values)
+			for _, v := range values {
+				sll.Add(v)
+			}
 			return
 		}
 		return
