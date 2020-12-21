@@ -1,5 +1,10 @@
 package doublelinkedlist
 
+import (
+	"fmt"
+	"strings"
+)
+
 // DoubleLinkedList  holds the linked list node, where each node points to next node and previous node
 type DoubleLinkedList struct {
 	head *node
@@ -65,4 +70,14 @@ func (dll *DoubleLinkedList) Clear() {
 	dll.head = nil
 	dll.tail = nil
 	dll.size = 0
+}
+
+// String return string representation of linked list
+func (dll *DoubleLinkedList) String() string {
+	result := []string{}
+
+	for current := dll.head; current != nil; current = current.next {
+		result = append(result, fmt.Sprintf("%v", current.value))
+	}
+	return strings.Join(result, ", ")
 }

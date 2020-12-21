@@ -115,7 +115,7 @@ func TestSllInsert(t *testing.T) {
 	if actualValue := sll.Size(); actualValue != 4 {
 		t.Errorf("Got %v expected %v", actualValue, 4)
 	}
-	if actualValue, expectedValue := sll.String(), "a->b->c->d"; actualValue != expectedValue {
+	if actualValue, expectedValue := sll.String(), "a, b, c, d"; actualValue != expectedValue {
 		t.Errorf("Got %v expected %v", actualValue, expectedValue)
 	}
 }
@@ -158,7 +158,7 @@ func TestSllSet(t *testing.T) {
 	if actualValue := sll.Size(); actualValue != 3 {
 		t.Errorf("Got %v expected %v", actualValue, 3)
 	}
-	if actualValue, expectedValue := sll.String(), "a->bb->c"; actualValue != expectedValue {
+	if actualValue, expectedValue := sll.String(), "a, bb, c"; actualValue != expectedValue {
 		t.Errorf("Got %v expected %v", actualValue, expectedValue)
 	}
 }

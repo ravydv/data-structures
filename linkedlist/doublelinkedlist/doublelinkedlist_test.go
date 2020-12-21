@@ -15,3 +15,11 @@ func TestDllNew(t *testing.T) {
 		t.Errorf("Got %v expected %v", actualValue, 4)
 	}
 }
+
+func TestDllAdd(t *testing.T) {
+	dll := New()
+	dll.Add(1, 2, 3)
+	if actualValue := dll.Size(); actualValue != 3 {
+		t.Errorf("Got %v expected %v", actualValue, 3)
+	}
+}

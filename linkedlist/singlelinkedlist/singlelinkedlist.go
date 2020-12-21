@@ -224,8 +224,7 @@ func (sll *SingleLinkedList) String() string {
 	for node := sll.head; node != nil; node = node.next {
 		values = append(values, fmt.Sprintf("%v", node.value))
 	}
-	result := strings.Join(values, "->")
-	return result
+	return strings.Join(values, ", ")
 }
 
 func (sll *SingleLinkedList) validateIndex(index int) bool {
