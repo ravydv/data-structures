@@ -17,7 +17,7 @@ type node struct {
 	next  *node
 }
 
-// New create new single linked list and add the values passed, if any
+// New create new linked list and add the values passed, if any
 func New(values ...interface{}) *SingleLinkedList {
 	sll := &SingleLinkedList{
 		head: nil,
@@ -33,7 +33,7 @@ func New(values ...interface{}) *SingleLinkedList {
 	return sll
 }
 
-// Add appends one or more values at the end of the single linked list
+// Add appends one or more values at the end of the linked list
 func (sll *SingleLinkedList) Add(values ...interface{}) {
 	for _, value := range values {
 		newNode := &node{
@@ -48,6 +48,13 @@ func (sll *SingleLinkedList) Add(values ...interface{}) {
 			sll.tail = newNode
 		}
 		sll.size++
+	}
+}
+
+// Append appends one or more values at the end of the linked list
+func (sll *SingleLinkedList) Append(values ...interface{}) {
+	for _, value := range values {
+		sll.Add(value)
 	}
 }
 
@@ -135,6 +142,7 @@ func (sll *SingleLinkedList) Contains(values ...interface{}) bool {
 }
 
 // Insert values at given index, shift given index node to right, if any
+// If index is equal to linked list size, values inserted at the end of the list
 func (sll *SingleLinkedList) Insert(index int, values ...interface{}) {
 	if !sll.validateIndex(index) {
 		if index == sll.size {
