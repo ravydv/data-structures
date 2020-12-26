@@ -67,7 +67,7 @@ func (dll *DoubleLinkedList) Prepend(values ...interface{}) {
 	for _, v := range values {
 		newNode := &node{
 			value: v,
-			next:  nil,
+			next:  dll.head,
 			prev:  nil,
 		}
 
@@ -204,23 +204,26 @@ func (dll *DoubleLinkedList) Remove(index int) {
 		return
 	}
 
-	var previous *node
 	current := dll.head
 	for i := 0; i < index; i++ {
-		previous = current
 		current = current.next
 	}
 
 	if current == dll.head {
 		dll.head = current.next
-	} else if current == dll.tail {
-		dll.tail = previous
-	} else {
-		previous.next = current.next
-		current.next.prev = previous
 	}
-	dll.size--
+	if current == dll.tail {
+		dll.tail = current.prev
+	}
+	if current.prev != nil {
+		current.prev.next = current.next
+	}
+	if current.next != nil {
+		current.next.prev = current.prev
+	}
+
 	current = nil
+	dll.size--
 }
 
 // Empty check emptyness of linked list
